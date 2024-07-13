@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import MyRoomPage from "./pages/MyRoomPage";
+import PartyPage from "./pages/PartyPage";
+import SignInPage from "./pages/SignInPage";
+import Layout from "./components/Layout";
 
-function App() {
+const App = () => {
+  const isLoggedIn = () => localStorage.getItem("loggedIn") === "true";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/myroom" element={<MyRoomPage />} />
+        <Route path="/party" element={<PartyPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route
+          path="*"
+          element={<Navigate to={isLoggedIn() ? "/myroom" : "/signin"} />}
+        />
+      </Routes>
+    </Layout>
   );
-}
+};
 
 export default App;
