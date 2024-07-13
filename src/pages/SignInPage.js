@@ -7,11 +7,11 @@ const SignInPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/auth/github", {
-        // withCredentials: true,
-      });
-      const { url } = response.data;
-      window.location.href = url;
+      // const response = await axios.get("http://localhost:3001/auth/github", {
+      //   withCredentials: true,
+      // });
+      // const { url } = response.data;
+      window.location.href = "http://localhost:3001/auth/github";
     } catch (error) {
       console.error("로그인 ㅎ오류:", error);
     }
