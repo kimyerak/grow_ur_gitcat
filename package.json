@@ -12,8 +12,10 @@
     "react": "^18.3.1",
     "react-app-rewired": "^2.2.1",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.1",
     "react-scripts": "^5.0.1",
+    "react-tabs": "^6.0.2",
     "styled-components": "^6.1.11",
     "web-vitals": "^4.2.1",
     "webpack-dev-server": "^5.0.4"
