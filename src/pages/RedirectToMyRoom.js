@@ -11,7 +11,7 @@ const RedirectToMyRoom = () => {
     const handleCallback = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get("code");
-      console.log("OAuth code:", code);
+      console.log("OAuth code from redirect.js:", code);
 
       if (code) {
         try {
@@ -38,21 +38,10 @@ const RedirectToMyRoom = () => {
 
         if (!username) {
           navigate("/signin");
-          return;
+        } else {
+          navigate(`/myroom/${username}`);
         }
-
-        try {
-          const response = await axios.get(
-            `http://localhost:3001/records/${username}`
-          );
-          localStorage.setItem("username", response.data.username);
-          navigate(`/myroom/${response.data.username}`);
-        } catch (err) {
-          setError(err);
-          navigate("/signin");
-        } finally {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
