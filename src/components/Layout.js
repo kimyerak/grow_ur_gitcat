@@ -10,12 +10,14 @@ const Layout = ({ children }) => {
     navigate("/signin");
   };
 
+  const username = localStorage.getItem("username");
+
   return (
     <div>
       <header style={headerStyle}>
         <nav style={navStyle}>
           <div>
-            <a href="/myroom" style={linkStyle}>
+            <a href={`/myroom/${username}`} style={linkStyle}>
               MyRoom
             </a>
             <a href="/party" style={linkStyle}>

@@ -5,20 +5,30 @@ import MyRoomPage from "./pages/MyRoomPage";
 import PartyPage from "./pages/PartyPage";
 import SignInPage from "./pages/SignInPage";
 import Layout from "./components/Layout";
+import RedirectToMyRoom from "./pages/RedirectToMyRoom";
 
 const App = () => {
-  const isLoggedIn = () => localStorage.getItem("loggedIn") === "true";
+  const username = localStorage.getItem("username");
 
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/myroom" element={<MyRoomPage />} />
-        <Route path="/party" element={<PartyPage />} />
+        <Route
+          path="/myroom/:username"
+          element={username ? <MyRoomPage /> : <Navigate to="/signin" />}
+        />
+        <Route
+          path="/party"
+          element={username ? <PartyPage /> : <Navigate to="/signin" />}
+        />
         <Route path="/signin" element={<SignInPage />} />
+        <Route path="/RedirectToMyRoom" element={<RedirectToMyRoom />} />
         <Route
           path="*"
-          element={<Navigate to={isLoggedIn() ? "/myroom" : "/signin"} />}
+          element={
+            <Navigate to={username ? `/myroom/${username}` : "/signin"} />
+          }
         />
       </Routes>
     </Layout>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../api/api_myroom";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import MRBG from "../components/background_myroom";
 
 const UserProfile = ({ username }) => {
@@ -10,8 +11,11 @@ const UserProfile = ({ username }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const data = await getUserInfo(username);
-        setUserInfo(data);
+        console.log("상우짱");
+        const response = await axios.get(
+          `http://localhost:3001/records/${username}`
+        );
+        setUserInfo(response.data);
       } catch (err) {
         setError(err);
       } finally {
@@ -30,7 +34,7 @@ const UserProfile = ({ username }) => {
       {userInfo ? (
         <div>
           <p>Username: {userInfo.username}</p>
-          <p>Email: {userInfo.email}</p>
+          <img src="/assets/cat4.png" alt="Cat Default" />
         </div>
       ) : (
         <p>No user info found</p>
@@ -39,14 +43,15 @@ const UserProfile = ({ username }) => {
   );
 };
 
-const MyRoomPage = ({ username }) => {
+const MyRoomPage = () => {
+  const { username } = useParams();
+  console.log("asdf");
+
   return (
     <MRBG>
-      <div>
-        <h1>My Room</h1>
-        <p>여기는 My Room 페이지입니다. 로그인 후 기본 페이지로 설정됩니다.</p>
-        <UserProfile username={username} />
-      </div>
+      <h1>My Room</h1>
+      <p>여기는 My Room 페이지입니다. 로그인 후 기본 페이지로 설정됩니다.</p>
+      <UserProfile username={username} />
     </MRBG>
   );
 };
