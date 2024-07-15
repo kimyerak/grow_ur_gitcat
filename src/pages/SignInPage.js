@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SIBG from "../components/background_signin";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -43,11 +44,11 @@ const SignInPage = () => {
   }, [navigate]);
 
   return (
-    <div>
+    <SIBG>
       <h1>Sign In</h1>
       <p>여기는 로그인 페이지입니다.</p>
       <button onClick={handleLogin}>깃헙 로그인</button>
-    </div>
+    </SIBG>
   );
 };
 

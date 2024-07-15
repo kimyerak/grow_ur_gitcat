@@ -1,13 +1,8 @@
-// src/components/background_myroom.js
-import styled from "styled-components";
-import myRoomBackground from "../assets/background_myroom.png"; // 배경 이미지 경로
+import React from "react";
+import "../styles/background_myroom.css";
 
-const MRBG = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-image: url(${myRoomBackground});
-  background-size: cover;
-  background-position: center;
-`;
+const MRBG = ({ children }) => {
+  return <div className="background-myroom">{children}</div>;
+};
 
 export default MRBG;

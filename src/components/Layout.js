@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
   const username = localStorage.getItem("username");
 
   return (
-    <div>
+    <div style={layoutStyle}>
       <header style={headerStyle}>
         <nav style={navStyle}>
           <div>
@@ -34,6 +34,12 @@ const Layout = ({ children }) => {
       <main style={mainStyle}>{children}</main>
     </div>
   );
+};
+const layoutStyle = {
+  display: "flex",
+  flexDirection: "column",
+  height: "100vh",
+  overflow: "hidden",
 };
 
 const headerStyle = {
