@@ -20,9 +20,6 @@ const RedirectToMyRoom = () => {
           console.log("response.data.username:", response.data.username);
           window.location.href = `http://localhost:3000/myroom/${response.data.username}`;
           localStorage.setItem("username", response.data.username);
-            // await localStorage.setItem("username", response.data.username).then(() => {
-            //   navigate(`/myroom/${localStorage.getItem("username")}`);
-            // });
         } else {
           localStorage.removeItem("username");
           navigate("/signin");
@@ -47,7 +44,7 @@ const RedirectToMyRoom = () => {
       } catch (err) {
         console.log(err);
         setError(err);
-        //navigate("/signin");
+        navigate("/signin");
       } finally {
         setLoading(false);
       }
@@ -65,7 +62,7 @@ const RedirectToMyRoom = () => {
         const username = localStorage.getItem("username");
 
         if (!username) {
-          //navigate("/signin");
+          navigate("/signin");
           setLoading(false);
           return;
         }
