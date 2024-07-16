@@ -93,7 +93,7 @@
 .laptop {
   position: absolute;
   bottom: 150px; /* 책상 상판 위에 위치하도록 설정 */
-  left: calc(60% + 60px); /* 책상 가운데에 위치하도록 조정 */
+  left: calc(50% + 60px); /* 책상 가운데에 위치하도록 조정 */
   width: 10px;
   height: 30px;
   background-color: #333; /* 노트북 본체 색상 */

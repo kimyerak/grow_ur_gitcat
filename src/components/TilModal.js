@@ -1,28 +1,54 @@
-// components/TilModal.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { getUserTils, addUserTil, deleteUserTil } from "../api/api_til";
 import "../styles/TilModal.css";
 
-const TilModal = ({
-  isOpen,
-  onRequestClose,
-  tils,
-  onAddTil,
-  onDeleteTil,
-  selectedTil,
-  setSelectedTil,
-}) => {
+const TilModal = ({ isOpen, onRequestClose, username }) => {
+  const [tils, setTils] = useState([]);
   const [newTil, setNewTil] = useState("");
+  const [selectedTil, setSelectedTil] = useState(null);
 
-  const handleAddTil = () => {
+  useEffect(() => {
+    const fetchTils = async () => {
+      try {
+        const data = await getUserTils(username);
+        setTils(data.til); // `til`은 유저의 TIL 목록을 나타내는 키로 가정
+      } catch (error) {
+        console.error("Failed to fetch TILs:", error);
+      }
+    };
+
+    if (isOpen) {
+      fetchTils();
+    }
+  }, [username, isOpen]);
+
+  const handleAddTil = async () => {
     if (newTil.trim() === "") return;
-    onAddTil(newTil);
-    setNewTil("");
+    try {
+      const tilData = { contents: newTil };
+      const updatedData = await addUserTil(username, tilData);
+      setTils(updatedData.til);
+      setNewTil("");
+    } catch (error) {
+      console.error("Failed to add TIL:", error);
+    }
+  };
+
+  const handleDeleteTil = async (tilId) => {
+    try {
+      const updatedData = await deleteUserTil(username, tilId);
+      setTils(updatedData.til);
+      setSelectedTil(null);
+    } catch (error) {
+      console.error("Failed to delete TIL:", error);
+    }
   };
 
   const closeModal = () => {
     setSelectedTil(null);
+    onRequestClose();
   };
 
   return (
@@ -70,7 +96,7 @@ const TilModal = ({
               Created At: {new Date(selectedTil.createdAt).toLocaleString()}
             </p>
             <button onClick={closeModal}>Close</button>
-            <button onClick={() => onDeleteTil(selectedTil._id)}>
+            <button onClick={() => handleDeleteTil(selectedTil._id)}>
               Delete <FaTrash />
             </button>
           </div>
