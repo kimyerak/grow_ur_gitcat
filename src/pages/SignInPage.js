@@ -57,11 +57,13 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SIBG from "../components/background_signin";
 
+const server_ip = process.env.REACT_APP_NETWORK_IP;
+
 const SignInPage = () => {
   const navigate = useNavigate();
 
   const clientId = "Ov23lidskaN0MLxrxovM";
-  const redirectUri = "http://localhost:3000/RedirectToMyRoom";
+  const redirectUri = `http://${server_ip}:3000/RedirectToMyRoom`;
   const handleLogin = () => {
     window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user`;
   };

@@ -40,6 +40,7 @@ const UserProfile = ({ username }) => {
           <p>Has Commit: {userInfo.hasCommit ? "Yes" : "No"}</p>
           <p>Message: {userInfo.message}</p>
           <p>Wearing Items: {userInfo.wearing_items.join(", ")}</p>
+          <img src="https://ghchart.rshah.org/syeongkim" />
           <img
             className="plant-image"
             src={
