@@ -11,6 +11,14 @@ const MRBG = ({ children }) => {
         </div>
         <div className="bed">
           <div className="bed-head"></div>
+          <div className="blanket"></div>
+          <div className="pillow"></div>
+        </div>
+        <div className="desk"></div>
+        <div className="laptop"></div>
+        <div className="mailbox">
+          <div className="lid"></div>
+          <div className="stand"></div>
         </div>
       </div>
       <div className="cloud"></div>
