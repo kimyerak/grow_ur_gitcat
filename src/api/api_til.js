@@ -34,6 +34,14 @@ export const getUserTils = async (username) => {
 export const addUserTil = async (username, tilData) => {
   try {
     const response = await instance.post(`/usertils/${username}/til`, tilData);
+    try {
+      const responseCoin = await instance.put(`/records/updateCoin/${username}`, {
+        amount: 3,
+      });
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
     return response.data;
   } catch (error) {
     console.error("Failed to add user TIL:", error);
