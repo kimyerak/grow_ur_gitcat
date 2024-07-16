@@ -9,7 +9,7 @@ import {
   addUserItem,
   buyShopItems,
   sendGift,
-  getUsers
+  getUsers,
 } from "../api/api_myroom_item";
 
 const shopItemsList = [
@@ -28,16 +28,23 @@ const shopItemsList = [
   { name: "🍭 간식", price: 15 },
   { name: "💻 노트북", price: 300 },
 ];
-
-const ItemModal = ({ isOpen, onRequestClose, username }) => {
+Modal.setAppElement("#root");
+const ItemModal = ({
+  isOpen,
+  onRequestClose,
+  username,
+  onWearItem,
+  onRemoveItem,
+  fetchUserInfo,
+}) => {
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [shopItems, setShopItems] = useState([]);
+
   const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState("");
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -60,7 +67,7 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
         const users = await getUsers();
         setUsers(users);
       } catch (err) {
-        console.error('Error fetching users:', err);
+        console.error("Error fetching users:", err);
       }
     };
 
@@ -70,14 +77,33 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
     }
   }, [isOpen, username]);
 
+  // const handleWearItem = async (itemName, currentStatus) => {
+  //   try {
+  //     const updatedItem = { current: currentStatus };
+  //     await updateUserItem(username, itemName, updatedItem);
+  //     const updatedUserItems = userItems.map((item) =>
+  //       item.name === itemName ? { ...item, current: currentStatus } : item
+  //     );
+  //     setUserItems(updatedUserItems);
+  //     if (currentStatus) {
+  //       onWearItem(itemName);
+  //     } else {
+  //       onRemoveItem(itemName);
+  //     }
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // };
   const handleWearItem = async (itemName, currentStatus) => {
     try {
       const updatedItem = { current: currentStatus };
       await updateUserItem(username, itemName, updatedItem);
-      const updatedUserItems = userItems.map((item) =>
-        item.name === itemName ? { ...item, current: currentStatus } : item
-      );
-      setUserItems(updatedUserItems);
+      await fetchUserInfo(); // 최신 사용자 정보를 가져옴
+      if (currentStatus) {
+        onWearItem(itemName);
+      } else {
+        onRemoveItem(itemName);
+      }
     } catch (err) {
       setError(err);
     }
@@ -90,6 +116,7 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
       await buyShopItems(username, item.price);
       const updatedUserItems = [...userItems, { ...newItem, _id: Date.now() }];
       setUserItems(updatedUserItems);
+      await fetchUserInfo();
     } catch (err) {
       setError(err);
     }
@@ -98,13 +125,18 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
   const handleSendGift = async () => {
     try {
       await sendGift(username, selectedUser, selectedItem.name);
-      const updatedUserItems = userItems.map((item) =>
-        item.name === selectedItem.name ? { ...item, stocks: item.stocks - 1 } : item
-      ).filter(item => item.stocks > 0); // 재고가 0인 아이템은 목록에서 제거
+      const updatedUserItems = userItems
+        .map((item) =>
+          item.name === selectedItem.name
+            ? { ...item, stocks: item.stocks - 1 }
+            : item
+        )
+        .filter((item) => item.stocks > 0); // 재고가 0인 아이템은 목록에서 제거
       setUserItems(updatedUserItems);
-      setSelectedUser('');
+      setSelectedUser("");
       setSelectedItem(null);
       setIsGiftModalOpen(false);
+      await fetchUserInfo();
     } catch (err) {
       setError(err);
     }
@@ -188,7 +220,7 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
       >
         <h2>선물할 사용자 선택</h2>
         <ul>
-          {users.map(user => (
+          {users.map((user) => (
             <li key={user.username}>
               <button onClick={() => setSelectedUser(user.username)}>
                 {user.username}
@@ -198,7 +230,9 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
         </ul>
         {selectedUser && (
           <div>
-            <p>{selectedUser}에게 {selectedItem?.name}을(를) 선물하시겠습니까?</p>
+            <p>
+              {selectedUser}에게 {selectedItem?.name}을(를) 선물하시겠습니까?
+            </p>
             <button onClick={handleSendGift}>Confirm</button>
             <button onClick={() => setIsGiftModalOpen(false)}>Cancel</button>
           </div>

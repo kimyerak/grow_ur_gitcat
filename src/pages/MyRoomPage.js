@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import MRBG from "../components/background_myroom";
 import { fetchUserRecord } from "../api/api_myroom_current";
@@ -7,6 +7,23 @@ import ItemModal from "../components/ItemModal";
 import TilModal from "../components/TilModal";
 import PostboxModal from "../components/PostboxModal";
 import { getUserTils, addUserTil, deleteUserTil } from "../api/api_til";
+
+const itemImages = {
+  "🎧 헤드셋": "/assets/headset.png",
+  "🍀 클로버": "/assets/clover.png",
+  "🚬 담배": "/assets/cigarette.png",
+  "☕ 커피": "/assets/coffee.png",
+  "👔 체크남방": "/assets/shirt.png",
+  "🧢 모자": "/assets/cap.png",
+  "👓 블루라이트 차단안경": "/assets/glasses.png",
+  "🖱 마우스": "/assets/mouse.png",
+  "⌨ 키보드": "/assets/keyboard.png",
+  "🍺 맥주": "/assets/beer.png",
+  "🧋 버블티": "/assets/bubble_tea.png",
+  "🛋 빈백": "/assets/bean_bag.png",
+  "🍭 간식": "/assets/snack.png",
+  "💻 노트북": "/assets/laptop.png",
+};
 
 const UserProfile = ({ username }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -62,22 +79,59 @@ const MyRoomPage = () => {
   const { username } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [tilModalIsOpen, setTilModalIsOpen] = useState(false);
-  const [tils, setTils] = useState([]);
-  const [selectedTil, setSelectedTil] = useState(null);
   const [postboxModalIsOpen, setPostboxModalIsOpen] = useState(false);
+  const [wornItems, setWornItems] = useState([]);
+  const wornItemsRef = useRef([]);
+
+  const fetchUserInfo = useCallback(async () => {
+    try {
+      const data = await fetchUserRecord(username);
+      const initialWornItems = data.wearing_items.map((item, index) => ({
+        name: item,
+        src: itemImages[item],
+        id: Date.now() + index,
+        x: 0,
+        y: 0,
+        dragging: false,
+      }));
+      setWornItems(initialWornItems);
+      wornItemsRef.current = initialWornItems;
+    } catch (error) {
+      console.error("Failed to fetch user info:", error);
+    }
+  }, [username]);
 
   useEffect(() => {
-    const fetchTils = async () => {
-      try {
-        const data = await getUserTils(username);
-        setTils(data.til); // `til`은 유저의 TIL 목록을 나타내는 키로 가정
-      } catch (error) {
-        console.error("Failed to fetch TILs:", error);
-      }
+    fetchUserInfo();
+
+    const handleMouseMove = (e) => {
+      wornItemsRef.current = wornItemsRef.current.map((item) =>
+        item.dragging
+          ? {
+              ...item,
+              x: e.clientX - item.offsetX,
+              y: e.clientY - item.offsetY,
+            }
+          : item
+      );
+      setWornItems([...wornItemsRef.current]);
     };
 
-    fetchTils();
-  }, [username]);
+    const handleMouseUp = () => {
+      wornItemsRef.current = wornItemsRef.current.map((item) =>
+        item.dragging ? { ...item, dragging: false } : item
+      );
+      setWornItems([...wornItemsRef.current]);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [fetchUserInfo]);
 
   const handleItemClick = () => {
     setModalIsOpen(true);
@@ -93,7 +147,6 @@ const MyRoomPage = () => {
 
   const closeTilModal = () => {
     setTilModalIsOpen(false);
-    setSelectedTil(null);
   };
   const handlePostboxClick = () => {
     setPostboxModalIsOpen(true);
@@ -103,53 +156,72 @@ const MyRoomPage = () => {
     setPostboxModalIsOpen(false);
   };
 
-  const handleAddTil = async (contents) => {
-    try {
-      const tilData = { contents };
-      const updatedData = await addUserTil(username, tilData);
-      setTils(updatedData.til);
-    } catch (error) {
-      console.error("Failed to add TIL:", error);
-    }
+  // const onWearItem = (itemName) => {
+  //   setWornItems((prevItems) => [
+  //     ...prevItems,
+  //     { name: itemName, src: itemImages[itemName], id: Date.now() },
+  //   ]);
+  // };
+
+  const onWearItem = (itemName) => {
+    const newItem = {
+      name: itemName,
+      src: itemImages[itemName],
+      id: Date.now(),
+      x: 0,
+      y: 0,
+      dragging: false,
+    };
+    setWornItems((prevItems) => [...prevItems, newItem]);
   };
 
-  const handleDeleteTil = async (tilId) => {
-    try {
-      const updatedData = await deleteUserTil(username, tilId);
-      setTils(updatedData.til);
-      setSelectedTil(null);
-    } catch (error) {
-      console.error("Failed to delete TIL:", error);
-    }
+  const onRemoveItem = (itemName) => {
+    setWornItems((prevItems) =>
+      prevItems.filter((item) => item.name !== itemName)
+    );
+  };
+
+  const handleMouseDown = (id, e) => {
+    wornItemsRef.current = wornItems.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            dragging: true,
+            offsetX: e.clientX - item.x,
+            offsetY: e.clientY - item.y,
+          }
+        : item
+    );
+    setWornItems([...wornItemsRef.current]);
   };
 
   return (
     <MRBG>
       <h1>My Room</h1>
-      <p>여기는 {username} My Room 페이지입니다.</p>
-      <img src="/assets/cat4.png" alt="Cat Default" />
+      <p>여기는 {username}의 My Room</p>
+
       <button className="item-button" onClick={handleItemClick}>
         아이템
       </button>
+      <ItemModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        username={username}
+        onWearItem={onWearItem}
+        onRemoveItem={onRemoveItem}
+        fetchUserInfo={fetchUserInfo}
+      />
       <button className="item-button" onClick={handleTilClick}>
         TIL
       </button>
       <button className="item-button" onClick={handlePostboxClick}>
         쪽지함
       </button>
-      <ItemModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        username={username}
-      />
+
       <TilModal
         isOpen={tilModalIsOpen}
         onRequestClose={closeTilModal}
-        tils={tils}
-        onAddTil={handleAddTil}
-        onDeleteTil={handleDeleteTil}
-        selectedTil={selectedTil}
-        setSelectedTil={setSelectedTil}
+        username={username}
       />
       <PostboxModal
         isOpen={postboxModalIsOpen}
@@ -157,6 +229,21 @@ const MyRoomPage = () => {
         username={username}
       />
       <UserProfile username={username} />
+      {wornItems.map((item) => (
+        <img
+          key={item.id}
+          src={item.src}
+          alt={item.name}
+          className="draggable"
+          style={{
+            position: "absolute",
+            left: item.x || 0,
+            top: item.y || 0,
+            cursor: "grab",
+          }}
+          onMouseDown={(e) => handleMouseDown(item.id, e)}
+        />
+      ))}
     </MRBG>
   );
 };
