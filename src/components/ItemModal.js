@@ -7,6 +7,7 @@ import {
   getUserItems,
   updateUserItem,
   addUserItem,
+  buyShopItems,
 } from "../api/api_myroom_item";
 
 const shopItemsList = [
@@ -69,6 +70,7 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
     try {
       const newItem = { ...item, stocks: 1, current: false };
       await addUserItem(username, newItem);
+      await buyShopItems(username, item.price);
       const updatedUserItems = [...userItems, { ...newItem, _id: Date.now() }];
       setUserItems(updatedUserItems);
     } catch (err) {
