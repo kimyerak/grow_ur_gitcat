@@ -12,6 +12,9 @@
   outline: none;
   width: 80%;
   max-width: 500px;
+  max-height: 80vh;
+  height: 60vh; /* Add this line to set fixed height */
+  overflow: hidden; /* Add this line to hide overflow */
 }
 
 .close-button {
@@ -58,6 +61,8 @@
 .til-list {
   list-style: none;
   padding: 0;
+  overflow-y: auto; /* Add this line to enable vertical scrolling */
+  max-height: calc(100% - 150px); /* Adjust the height to fit within the modal */
 }
 
 .til-list li {

@@ -58,10 +58,14 @@
   background: white;
   border-bottom: 1px solid white;
 }
+
 .item-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;  /* Enable vertical scrolling */
+  padding-right: 10px; /* Add padding to accommodate the scrollbar */
 }
 
 .item-card {
