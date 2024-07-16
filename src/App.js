@@ -6,6 +6,7 @@ import PartyPage from "./pages/PartyPage";
 import SignInPage from "./pages/SignInPage";
 import Layout from "./components/Layout";
 import RedirectToMyRoom from "./pages/RedirectToMyRoom";
+import MyTilPage from "./pages/MyTilPage";
 
 const App = () => {
   const username = localStorage.getItem("username");
@@ -24,6 +25,7 @@ const App = () => {
         />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/RedirectToMyRoom" element={<RedirectToMyRoom />} />
+        <Route path="/mytil/:username" element={<MyTilPage />} />
         <Route
           path="*"
           element={

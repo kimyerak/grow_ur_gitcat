@@ -39,7 +39,7 @@ const layoutStyle = {
   display: "flex",
   flexDirection: "column",
   height: "100vh",
-  overflow: "hidden",
+  // overflow: "hidden",
 };
 
 const headerStyle = {
@@ -74,6 +74,7 @@ const buttonStyle = {
 
 const mainStyle = {
   padding: "20px",
+  overflow: "auto",
 };
 
 export default Layout;
