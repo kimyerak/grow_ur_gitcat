@@ -8,6 +8,8 @@ import {
   updateUserItem,
   addUserItem,
   buyShopItems,
+  sendGift,
+  getUsers
 } from "../api/api_myroom_item";
 
 const shopItemsList = [
@@ -31,6 +33,11 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [shopItems, setShopItems] = useState([]);
+  const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedUser, setSelectedUser] = useState('');
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -40,7 +47,7 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
         // 가정: 상점 아이템 목록을 가져오는 함수가 존재한다고 가정
         // const shopItemsData = await getShopItems();
         // setShopItems(shopItemsData);
-        setUserItems(userItemsData.items);
+        // setUserItems(userItemsData.items);
       } catch (err) {
         setError(err);
       } finally {
@@ -48,8 +55,18 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
       }
     };
 
+    const fetchUsers = async () => {
+      try {
+        const users = await getUsers();
+        setUsers(users);
+      } catch (err) {
+        console.error('Error fetching users:', err);
+      }
+    };
+
     if (isOpen) {
       fetchItems();
+      fetchUsers();
     }
   }, [isOpen, username]);
 
@@ -76,6 +93,26 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
     } catch (err) {
       setError(err);
     }
+  };
+
+  const handleSendGift = async () => {
+    try {
+      await sendGift(username, selectedUser, selectedItem.name);
+      const updatedUserItems = userItems.map((item) =>
+        item.name === selectedItem.name ? { ...item, stocks: item.stocks - 1 } : item
+      ).filter(item => item.stocks > 0); // 재고가 0인 아이템은 목록에서 제거
+      setUserItems(updatedUserItems);
+      setSelectedUser('');
+      setSelectedItem(null);
+      setIsGiftModalOpen(false);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  const openGiftModal = (item) => {
+    setSelectedItem(item);
+    setIsGiftModalOpen(true);
   };
 
   return (
@@ -115,6 +152,9 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
                     <button onClick={() => handleWearItem(item.name, false)}>
                       착용해제
                     </button>
+                    <button onClick={() => openGiftModal(item)}>
+                      선물하기
+                    </button>
                   </div>
                 ))}
               </div>
@@ -140,6 +180,30 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
           </TabPanel>
         </Tabs>
       )}
+      <Modal
+        isOpen={isGiftModalOpen}
+        onRequestClose={() => setIsGiftModalOpen(false)}
+        className="styled-modal"
+        overlayClassName="Overlay"
+      >
+        <h2>선물할 사용자 선택</h2>
+        <ul>
+          {users.map(user => (
+            <li key={user.username}>
+              <button onClick={() => setSelectedUser(user.username)}>
+                {user.username}
+              </button>
+            </li>
+          ))}
+        </ul>
+        {selectedUser && (
+          <div>
+            <p>{selectedUser}에게 {selectedItem?.name}을(를) 선물하시겠습니까?</p>
+            <button onClick={handleSendGift}>Confirm</button>
+            <button onClick={() => setIsGiftModalOpen(false)}>Cancel</button>
+          </div>
+        )}
+      </Modal>
     </Modal>
   );
 };
