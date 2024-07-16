@@ -2,7 +2,7 @@
 import axios from "axios";
 const server_ip = process.env.REACT_APP_NETWORK_IP;
 
-const API_URL = `http://${server_ip}:3001`; // 백엔드 URL을 실제 값으로 변경하세요
+const API_URL = `http://${server_ip}:80`; // 백엔드 URL을 실제 값으로 변경하세요
 
 export const getCommitKing = async () => {
   try {

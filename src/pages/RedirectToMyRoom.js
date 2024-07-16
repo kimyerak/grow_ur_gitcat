@@ -12,7 +12,7 @@ const RedirectToMyRoom = () => {
     const handleOAuthCallback = async (code) => {
       try {
         const response = await axios.get(
-          `http://${server_ip}:3001/auth/github/callback?code=${code}`,
+          `http://${server_ip}:80/auth/github/callback?code=${code}`,
           { withCredentials: true }
         );
         console.log("response:", response);
@@ -37,7 +37,7 @@ const RedirectToMyRoom = () => {
     const handleLocalStorageCheck = async (username) => {
       try {
         const response = await axios.get(
-          `http://${server_ip}:3001/records/${username}`
+          `http://${server_ip}:80/records/${username}`
         );
         localStorage.setItem("username", response.data.username);
         navigate(`/myroom/${response.data.username}`);

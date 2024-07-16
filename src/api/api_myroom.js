@@ -3,7 +3,7 @@ const server_ip = env.NETWORK_IP;
 
 // baseURL 설정
 const instance = axios.create({
-  baseURL: `http://${server_ip}:3001`,
+  baseURL: `http://${server_ip}:80`,
   headers: {
     accept: "*/*",
   },
