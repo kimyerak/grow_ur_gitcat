@@ -35,3 +35,13 @@ export const getConsistentTil = async () => {
     throw error;
   }
 };
+
+export const getAllUserMessage = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/records`);
+    return response.data;
+  } catch (e) {
+    console.error("Error fetching all user messages", e);
+    throw e;
+  }
+}

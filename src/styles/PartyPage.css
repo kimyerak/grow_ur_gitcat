@@ -23,3 +23,53 @@
   border-radius: 50%;
   margin-bottom: 10px;
 }
+
+.message-container {
+  position: relative;
+  width: 100%;
+  height: 450px; /* Adjust the height as needed */
+  overflow: hidden;
+  padding: 20px;
+}
+
+.here {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  position: absolute; /* Absolutely position within the container */
+}
+
+.message {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative; /* Required for ::after positioning */
+}
+
+.message::after {
+  content: "";
+  position: absolute;
+  bottom: -10px; /* Position the arrow at the bottom */
+  left: 20px; /* Adjust to position the arrow */
+  border-width: 10px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+
+.message p {
+  margin: 0;
+}
+
+.here img {
+  margin-top: 10px; /* Add some space between the message and the image */
+}
+
+.username {
+  color: #fff,
+}

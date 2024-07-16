@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import MTBG from "../components/background_til";
 import { FaPencilAlt } from "react-icons/fa";
@@ -11,18 +11,18 @@ const MyTilPage = () => {
   const [newTil, setNewTil] = useState("");
   const [selectedTil, setSelectedTil] = useState(null);
 
-  useEffect(() => {
-    const fetchTils = async () => {
-      try {
-        const data = await getUserTils(username);
-        setTils(data.til);  // `til`은 유저의 TIL 목록을 나타내는 키로 가정
-      } catch (error) {
-        console.error("Failed to fetch TILs:", error);
-      }
-    };
-
-    fetchTils();
+  const fetchTils = useCallback(async () => {
+    try {
+      const data = await getUserTils(username);
+      setTils(data.til);  // `til`은 유저의 TIL 목록을 나타내는 키로 가정
+    } catch (error) {
+      console.error("Failed to fetch TILs:", error);
+    }
   }, [username]);
+
+  useEffect(() => {
+    fetchTils();
+  }, [fetchTils]);
 
   const handleAddTil = async () => {
     if (newTil.trim() === "") return;
@@ -30,13 +30,14 @@ const MyTilPage = () => {
       const tilData = {
         contents: newTil,
       };
-      const updatedData = await addUserTil(username, tilData);
-      setTils(updatedData.til);
+      await addUserTil(username, tilData);
+      fetchTils(); // 최신 데이터를 다시 가져와 상태를 업데이트
       setNewTil("");
     } catch (error) {
       console.error("Failed to add TIL:", error);
     }
   };
+
 
   const handleTilClick = (til) => {
     setSelectedTil(til);
