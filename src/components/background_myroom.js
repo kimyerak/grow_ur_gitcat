@@ -1,9 +1,51 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import "../styles/background_myroom.css";
 
 const MRBG = ({ children }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const catRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    catRef.current.style.cursor = "grabbing";
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - catRef.current.clientWidth / 2,
+        y: e.clientY - catRef.current.clientHeight / 2,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    catRef.current.style.cursor = "grab";
+  };
+  const createDust = () => {
+    const dustArray = [];
+    for (let i = 0; i < 50; i++) {
+      dustArray.push(
+        <div
+          key={i}
+          className="dust"
+          style={{
+            left: `${Math.random() * 100}vw`,
+            top: `${Math.random() * -100}vh`,
+          }}
+        />
+      );
+    }
+    return dustArray;
+  };
   return (
-    <div className="background-myroom">
+    <div
+      className="background-myroom"
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       <div className="ground">
         <div className="wardrobe">
           <div className="door"></div>
@@ -15,7 +57,9 @@ const MRBG = ({ children }) => {
           <div className="pillow"></div>
         </div>
         <div className="desk"></div>
-        <div className="laptop"></div>
+        <div className="laptop">
+          <div className="stand"></div>
+        </div>
         <div className="mailbox">
           <div className="lid"></div>
           <div className="stand"></div>
@@ -23,6 +67,20 @@ const MRBG = ({ children }) => {
       </div>
       <div className="cloud"></div>
       <div className="room-content">{children}</div>
+      {createDust()}
+      <img
+        src="/assets/cat4.png"
+        alt="Cat"
+        className="draggable"
+        ref={catRef}
+        onMouseDown={handleMouseDown}
+        style={{
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+          position: "absolute",
+          cursor: "grab",
+        }}
+      />
     </div>
   );
 };

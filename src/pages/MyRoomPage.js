@@ -126,7 +126,7 @@ const MyRoomPage = () => {
     <MRBG>
       <h1>My Room</h1>
       <p>여기는 {username} My Room 페이지입니다.</p>
-      <img src="/assets/cat4.png" alt="Cat Default" />
+
       <button className="item-button" onClick={handleItemClick}>
         아이템
       </button>

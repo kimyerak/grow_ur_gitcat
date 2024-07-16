@@ -17,3 +17,13 @@
   width: 100px; /* 원하는 크기로 조절 */
   height: auto; /* 비율을 유지하면서 높이를 자동 조절 */
 }
+.draggable {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}

@@ -4,7 +4,8 @@
   height: 100vh; /* 전체 화면 높이 */
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
 }
@@ -178,4 +179,35 @@
   height: 80px;
   top: -40px;
   right: 20px;
+}
+@keyframes fall {
+  0% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+.dust {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #ffffe0; /* 연노랑색 */
+  border-radius: 50%;
+  animation: fall 10s linear infinite;
+  opacity: 0;
+}
+
+.dust:nth-child(2n) {
+  animation-duration: 12s;
+}
+
+.dust:nth-child(3n) {
+  animation-duration: 8s;
+}
+
+.dust:nth-child(4n) {
+  animation-duration: 14s;
 }
