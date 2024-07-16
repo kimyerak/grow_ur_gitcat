@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "../styles/ItemModal.css";
-import { getUserItems } from "../api/api_myroom_item";
+import { getUserItems, updateUserItem } from "../api/api_myroom_item";
 
 const ItemModal = ({ isOpen, onRequestClose, username }) => {
   const [userItems, setUserItems] = useState([]);
@@ -31,6 +31,19 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
     }
   }, [isOpen, username]);
 
+  const handleWearItem = async (itemName, currentStatus) => {
+    try {
+      const updatedItem = { current: currentStatus };
+      await updateUserItem(username, itemName, updatedItem);
+      const updatedUserItems = userItems.map((item) =>
+        item.name === itemName ? { ...item, current: currentStatus } : item
+      );
+      setUserItems(updatedUserItems);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -56,15 +69,21 @@ const ItemModal = ({ isOpen, onRequestClose, username }) => {
           <TabPanel>
             <h3>내 아이템 목록</h3>
             {userItems && userItems.length > 0 ? (
-              <ul>
+              <div className="item-list">
                 {userItems.map((item) => (
-                  <li key={item._id}>
+                  <div key={item._id} className="item-card">
                     <p>이름: {item.name}</p>
                     <p>수량: {item.stocks}</p>
                     <p>현재 사용 중: {item.current ? "예" : "아니오"}</p>
-                  </li>
+                    <button onClick={() => handleWearItem(item.name, true)}>
+                      착용
+                    </button>
+                    <button onClick={() => handleWearItem(item.name, false)}>
+                      착용해제
+                    </button>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p>아이템이 없습니다.</p>
             )}
