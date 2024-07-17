@@ -1,5 +1,6 @@
 // api_myroom_item.js
-const BASE_URL = "http://localhost:3001";
+const server_ip = process.env.REACT_APP_NETWORK_IP;
+const BASE_URL = `http://${server_ip}:80`;
 
 export const getUserItems = async (username) => {
   try {

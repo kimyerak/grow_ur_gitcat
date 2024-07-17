@@ -51,7 +51,7 @@ const MRBG = ({ children, onItemClick, onTilClick, onPostboxClick }) => {
           <div className="door"></div>
           <div className="door">
             <button className="item-button" onClick={onItemClick}>
-              아이템
+              ITEMS
             </button>
           </div>
         </div>
@@ -68,17 +68,30 @@ const MRBG = ({ children, onItemClick, onTilClick, onPostboxClick }) => {
           <div className="lid"></div>
           <div className="stand"></div>
           <button className="item-button" onClick={onPostboxClick}>
-            쪽지함
+            POST BOX
           </button>
         </div>
         <div className="bookshelf">
-          <div className="shelf"></div>
+          <div className="shelf">
+            <div className="book"></div>
+            <div className="book"></div>
+            <div className="book"></div>
+            <div className="book"></div>
+            <div className="book"></div>
+          </div>
           <div className="shelf">
             <button className="item-button" onClick={onTilClick}>
               TIL
             </button>
           </div>
-          <div className="shelf"></div>
+
+          <div className="shelf">
+            <div className="book"></div>
+            <div className="book"></div>
+            <div className="book"></div>
+            <div className="book"></div>
+            <div className="book"></div>
+          </div>
         </div>
       </div>
 

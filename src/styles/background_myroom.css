@@ -163,6 +163,33 @@
   height: 20%;
   background-color: #a0522d; /* 황갈색 */
   border: 2px solid #8b4513; /* 어두운 갈색 */
+  display: flex;
+  justify-content: space-between; /* 책들이 양옆으로 나열되도록 설정 */
+  align-items: center;
+}
+
+.book {
+  width: 30px;
+  height: 90%;
+  background-color: #d2691e; /* 초콜릿 색상 */
+  border: 1px solid #8b4513; /* 어두운 갈색 */
+  margin: 0 2px;
+}
+
+.book:nth-child(2n) {
+  background-color: #ff6347; /* 토마토 색상 */
+}
+
+.book:nth-child(3n) {
+  background-color: #4682b4; /* 스틸 블루 색상 */
+}
+
+.book:nth-child(4n) {
+  background-color: #32cd32; /* 라임 그린 색상 */
+}
+
+.book:nth-child(5n) {
+  background-color: #ffd700; /* 금색 */
 }
 
 .cloud {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const server_ip = process.env.REACT_APP_NETWORK_IP;
 const RedirectToMyRoom = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -11,13 +12,14 @@ const RedirectToMyRoom = () => {
     const handleOAuthCallback = async (code) => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/auth/github/callback?code=${code}`,
+          `http://${server_ip}:80/auth/github/callback?code=${code}`,
           { withCredentials: true }
         );
         console.log("response:", response);
         if (response.data.username) {
           console.log("response.data.username:", response.data.username);
-          window.location.href = `http://localhost:3000/myroom/${response.data.username}`;
+          navigate("/myroom/" + response.data.username);
+          // window.location.href = `http://${server_ip}:3000/myroom/${response.data.username}`;
           localStorage.setItem("username", response.data.username);
         } else {
           localStorage.removeItem("username");
@@ -36,7 +38,7 @@ const RedirectToMyRoom = () => {
     const handleLocalStorageCheck = async (username) => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/records/${username}`
+          `http://${server_ip}:80/records/${username}`
         );
         localStorage.setItem("username", response.data.username);
         navigate(`/myroom/${response.data.username}`);

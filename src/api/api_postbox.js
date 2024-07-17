@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:3001";
+const server_ip = process.env.REACT_APP_NETWORK_IP;
+const BASE_URL = `http://${server_ip}:80`;
 
 // 받은 쪽지 가져오기
 export const getReceivedMessages = async (username) => {
