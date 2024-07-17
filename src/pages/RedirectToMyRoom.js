@@ -18,7 +18,8 @@ const RedirectToMyRoom = () => {
         console.log("response:", response);
         if (response.data.username) {
           console.log("response.data.username:", response.data.username);
-          window.location.href = `http://${server_ip}:3000/myroom/${response.data.username}`;
+          navigate("/myroom/" + response.data.username);
+          // window.location.href = `http://${server_ip}:3000/myroom/${response.data.username}`;
           localStorage.setItem("username", response.data.username);
         } else {
           localStorage.removeItem("username");
@@ -51,6 +52,7 @@ const RedirectToMyRoom = () => {
     };
 
     const handleCallback = async () => {
+      console.log(window.location.search);
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get("code");
       console.log("OAuth code:", code);
@@ -68,7 +70,7 @@ const RedirectToMyRoom = () => {
         }
 
         await handleLocalStorageCheck(username);
-      }
+      } 
     };
 
     handleCallback();

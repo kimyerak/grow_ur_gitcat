@@ -46,3 +46,23 @@ export const getAllUserMessage = async () => {
     throw e;
   }
 }
+
+export const getCoinFromGame = async (username, cost) => {
+  try {
+    const response = await fetch(`${API_URL}/records/updateCoin/${username}`, {
+      method: 'PUT',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount: cost }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error updating coin: ${response.statusText}`);
+    }
+  } catch (e) {
+    console.error('Error buying shop items:', e);
+    throw e;
+  }
+};

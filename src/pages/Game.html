@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Catcher Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            background-color: #87CEEB;
+        }
+        .score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="score">Score: 0</div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.querySelector('.score');
+        const coinImg = new Image();
+        const catImg = new Image();
+        
+        // 로컬 이미지 경로로 수정
+        coinImg.src = 'cigarette.png'; // 코인 이미지 파일명
+        catImg.src = 'cat4.png'; // 고양이 이미지 파일명
+        
+        let score = 0;
+
+        const cat = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height - 60,
+            width: 50,
+            height: 50,
+            speed: 7,
+            dx: 0
+        };
+
+        const coin = {
+            x: Math.random() * (canvas.width - 30),
+            y: 0,
+            width: 30,
+            height: 30,
+            speed: 3
+        };
+
+        function drawCat() {
+            ctx.drawImage(catImg, cat.x, cat.y, cat.width, cat.height);
+        }
+
+        function drawCoin() {
+            ctx.drawImage(coinImg, coin.x, coin.y, coin.width, coin.height);
+        }
+
+        function clear() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function moveCat() {
+            cat.x += cat.dx;
+
+            // 경계값 체크
+            if (cat.x < 0) cat.x = 0;
+            if (cat.x + cat.width > canvas.width) cat.x = canvas.width - cat.width;
+        }
+
+        function moveCoin() {
+            coin.y += coin.speed;
+
+            // 코인이 바닥에 닿았을 때
+            if (coin.y + coin.height > canvas.height) {
+                coin.y = 0;
+                coin.x = Math.random() * (canvas.width - coin.width);
+            }
+
+            // 고양이가 코인을 먹었을 때
+            if (coin.y + coin.height > cat.y && coin.y < cat.y + cat.height &&
+                coin.x + coin.width > cat.x && coin.x < cat.x + cat.width) {
+                score += 10;
+                scoreElement.textContent = `Score: ${score}`;
+                coin.y = 0;
+                coin.x = Math.random() * (canvas.width - coin.width);
+            }
+        }
+
+        function update() {
+            clear();
+            drawCat();
+            drawCoin();
+            moveCat();
+            moveCoin();
+            requestAnimationFrame(update);
+        }
+
+        function keyDown(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Right') {
+                cat.dx = cat.speed;
+            } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                cat.dx = -cat.speed;
+            }
+        }
+
+        function keyUp(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Right' ||
+                e.key === 'ArrowLeft' || e.key === 'Left') {
+                cat.dx = 0;
+            }
+        }
+
+        document.addEventListener('keydown', keyDown);
+        document.addEventListener('keyup', keyUp);
+
+        function startGame() {
+            // 이미지가 모두 로드된 후 게임 시작
+            if (catImg.complete && coinImg.complete) {
+                update();
+            } else {
+                setTimeout(startGame, 50); // 이미지가 로드될 때까지 재귀 호출
+            }
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
