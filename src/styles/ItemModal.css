@@ -16,6 +16,26 @@
   flex-direction: column;
 }
 
+.styled-modal2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  outline: none;
+  width: auto;
+  height: auto;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 .close-button {
   background-color: #f44336;
   color: white;
@@ -47,7 +67,7 @@
   font-size: 16px;
   border: 1px solid #ccc;
   border-bottom: none;
-  background: #eee;
+  background: white;
 }
 
 .styled-tab:hover {
@@ -55,7 +75,7 @@
 }
 
 .react-tabs__tab--selected {
-  background: white;
+  background: #eee;
   border-bottom: 1px solid white;
 }
 
@@ -63,18 +83,20 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  max-height: 200px;
+  max-height: 350px;
   overflow-y: auto;  /* Enable vertical scrolling */
   padding-right: 10px; /* Add padding to accommodate the scrollbar */
 }
 
 .item-card {
-  background: #f5f5f5;
+  background: white;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 10px;
   width: calc(50% - 10px);
   box-sizing: border-box;
+  margin-bottom: 10px; /* 카드 간 간격 추가 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-card p {
@@ -83,4 +105,64 @@
 
 .item-card button {
   margin-right: 5px;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.item-card button {
+  background-color: #b3b1b1e8; /* 착용 버튼 색상: 초록색 */
+  color: white;
+}
+
+.item-card button:hover {
+  background-color: #eee; /* 착용 버튼 호버 색상: 짙은 초록색 */
+}
+
+/* .item-card button:nth-of-type(2) {
+  background-color: #f44336; 
+  color: white;
+}
+
+.item-card button:nth-of-type(2):hover {
+  background-color: #d32f2f; 
+}
+
+.item-card button:last-of-type {
+  background-color: #2196F3;
+  color: white;
+}
+
+.item-card button:last-of-type:hover {
+  background-color: #1976d2; 
+} */
+
+
+.giftuser {
+  background: white;
+  border: none;
+  font-size: 20px;
+}
+
+.boxgroup {
+  display: flex;
+  gap: 10px; /* 원하는 간격으로 조절하세요 */
+  justify-content: center;
+}
+
+.boxgroup button {
+  background-color: #25b431;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.boxgroup button:hover {
+  background-color: #1b742e;
 }

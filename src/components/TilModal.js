@@ -87,18 +87,21 @@ const TilModal = ({ isOpen, onRequestClose, username }) => {
         isOpen={!!selectedTil}
         onRequestClose={closeModal}
         contentLabel="TIL Details"
+        className="styled-modal2"
       >
         {selectedTil && (
           <div className="til-details">
-            <h2>TIL Details</h2>
+            <h2>Details</h2>
             <p>{selectedTil.contents}</p>
             <p>
-              Created At: {new Date(selectedTil.createdAt).toLocaleString()}
+              작성 시간: {new Date(selectedTil.createdAt).toLocaleString().split("오후")[0].split("오전")[0]}
             </p>
-            <button onClick={closeModal}>Close</button>
-            <button onClick={() => handleDeleteTil(selectedTil._id)}>
-              Delete <FaTrash />
-            </button>
+            <div className="button-group">
+              <button onClick={closeModal}>Close</button>
+              <button onClick={() => handleDeleteTil(selectedTil._id)}>
+                Delete <FaTrash />
+              </button>
+            </div>
           </div>
         )}
       </Modal>

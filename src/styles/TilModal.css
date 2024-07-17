@@ -17,6 +17,26 @@
   overflow: hidden; /* Add this line to hide overflow */
 }
 
+.styled-modal2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  outline: none;
+  width: auto;
+  max-width: 500px;
+  max-height: 80vh;
+  height: auto; /* Add this line to set fixed height */
+  overflow: hidden; /* Add this line to hide overflow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
 .close-button {
   background-color: #f44336;
   color: white;
@@ -26,6 +46,7 @@
   cursor: pointer;
   font-size: 14px;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .close-button:hover {
@@ -98,4 +119,8 @@
 
 .til-details button:hover {
   background-color: #d32f2f;
+}
+
+.button-group {
+  justify-content: center;
 }

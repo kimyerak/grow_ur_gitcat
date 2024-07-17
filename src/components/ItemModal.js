@@ -178,15 +178,15 @@ const ItemModal = ({
                     <p>이름: {item.name}</p>
                     <p>수량: {item.stocks}</p>
                     <p>현재 사용 중: {item.current ? "예" : "아니오"}</p>
-                    <button onClick={() => handleWearItem(item.name, true)}>
-                      착용
-                    </button>
-                    <button onClick={() => handleWearItem(item.name, false)}>
-                      착용해제
-                    </button>
-                    <button onClick={() => openGiftModal(item)}>
-                      선물하기
-                    </button>
+                      <button onClick={() => handleWearItem(item.name, true)}>
+                        착용
+                      </button>
+                      <button onClick={() => handleWearItem(item.name, false)}>
+                        착용해제
+                      </button>
+                      <button onClick={() => openGiftModal(item)}>
+                        선물하기
+                      </button>
                   </div>
                 ))}
               </div>
@@ -215,26 +215,31 @@ const ItemModal = ({
       <Modal
         isOpen={isGiftModalOpen}
         onRequestClose={() => setIsGiftModalOpen(false)}
-        className="styled-modal"
+        className="styled-modal2"
         overlayClassName="Overlay"
       >
-        <h2>선물할 사용자 선택</h2>
-        <ul>
-          {users.map((user) => (
-            <li key={user.username}>
-              <button onClick={() => setSelectedUser(user.username)}>
-                {user.username}
-              </button>
-            </li>
-          ))}
-        </ul>
-        {selectedUser && (
+        {!selectedUser ? (
+          <>
+            <h2>선물할 사용자 선택</h2>
+            <ul>
+              {users.map((user) => (
+                <li key={user.username}>
+                  <button onClick={() => setSelectedUser(user.username)} className="giftuser">
+                    {user.username}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
           <div>
-            <p>
+            <p style={{ fontSize: "20px" }}>
               {selectedUser}에게 {selectedItem?.name}을(를) 선물하시겠습니까?
             </p>
-            <button onClick={handleSendGift}>Confirm</button>
-            <button onClick={() => setIsGiftModalOpen(false)}>Cancel</button>
+            <div className="boxgroup">
+              <button onClick={handleSendGift}>Confirm</button>
+              <button onClick={() => setIsGiftModalOpen(false)}>Cancel</button>
+            </div>
           </div>
         )}
       </Modal>
