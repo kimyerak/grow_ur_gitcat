@@ -23,7 +23,7 @@
 
 .bed {
   bottom: 100px;
-  left: 20%;
+  left: 18%;
   width: 350px;
   height: 100px;
   background-color: #db8f71; /* 분홍색 */
@@ -87,7 +87,7 @@
 .desk {
   position: absolute;
   bottom: 100px;
-  left: 40%;
+  left: 38%;
   width: 600px;
   height: 200px;
   background-color: #be865d; /* 연한 갈색 */
@@ -97,8 +97,8 @@
 .laptop {
   position: absolute;
   bottom: 400px; /* 책상 상판 위에 위치하도록 설정 */
-  left: calc(35% + 60px); /* 책상 가운데에 위치하도록 조정 */
-  width: 550px;
+  left: calc(32% + 60px); /* 책상 가운데에 위치하도록 조정 */
+  width: 700px;
   height: 200px;
   background-color: #555; /* 노트북 화면 색상 */
   border: 2px solid #333; /* 노트북 경계 색상 */
@@ -111,7 +111,7 @@
   content: "";
   position: absolute;
   bottom: -100px;
-  left: 260px;
+  left: 340px;
 
   width: 30px;
   height: 100px;

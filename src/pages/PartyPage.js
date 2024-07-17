@@ -9,6 +9,7 @@ import "../styles/PartyPage.css";
 import BackgroundParty from "../components/background_party";
 import SendMessageModal from '../components/SendMessageModal';
 import { sendMessage } from '../api/api_postbox';
+import GameModal from '../components/GameModal'; // 추가된 부분
 
 const PartyPage = () => {
   const [commitKing, setCommitKing] = useState(null);
@@ -17,6 +18,7 @@ const PartyPage = () => {
   const [allUserMessages, setAllUserMessages] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [gameModalIsOpen, setGameModalIsOpen] = useState(false); // 추가된 부분
 
   const openModal = (user) => {
     setSelectedUser(user);
@@ -40,6 +42,15 @@ const PartyPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const openGameModal = () => { // 추가된 부분
+    console.log("Opening game modal");
+    setGameModalIsOpen(true);
+  };
+
+  const closeGameModal = () => { // 추가된 부분
+    setGameModalIsOpen(false);
   };
 
   useEffect(() => {
@@ -67,23 +78,13 @@ const PartyPage = () => {
     fetchKings();
   }, []);
 
-
-  const messageElements = document.querySelectorAll('.here');
-  messageElements.forEach(element => {
-    const randomTop = Math.random() * 80; // Adjust the range as needed
-    const randomLeft = Math.random() * 80; // Adjust the range as needed
-    console.log(randomTop, randomLeft);
-    element.style.top = `${randomTop}%`;
-    element.style.left = `${randomLeft}%`;
-  });
-
   return (
     <BackgroundParty>
       <div className="party-page">
         <div className="kings-container">
           {commitKing && (
             <div className="king-card">
-              <h2>금주의 커밋왕</h2>
+              <h2>금주의 커밋왕@@</h2>
               <img
                 src={commitKing.profilePic}
                 alt="Commit King"
@@ -125,22 +126,30 @@ const PartyPage = () => {
             style={{
               top: `${Math.random() * 80}%`,
               left: `${Math.random() * 80}%`,
-              position: 'absolute', // Ensure the elements are positioned absolutely
+              position: 'absolute',
             }}
           >
             <div className="message">
               <p>{user.message}</p>
             </div>
-            <img src="../assets/cat4.png" alt="cat" onClick={() => openModal(user)} style={{ cursor: 'pointer' }}/>
+            <img src="../assets/cat4.png" alt="cat" onClick={() => openModal(user)} style={{ cursor: 'pointer' }} />
             <p className="username">{user.username}</p>
           </div>
         ))}
         <SendMessageModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        onSendMessage={handleSendMessage}
-      />
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          onSendMessage={handleSendMessage}
+        />
       </div>
+      <div className="game-icon">
+        <p>is it here?</p>
+        <img src="../assets/clover.png" alt="Game Icon" onClick={openGameModal} style={{ cursor: 'pointer' }} /> {/* 게임 아이콘 추가 */}
+      </div>
+      <GameModal // 추가된 부분
+        isOpen={gameModalIsOpen}
+        onRequestClose={closeGameModal}
+      />
     </BackgroundParty>
   );
 };

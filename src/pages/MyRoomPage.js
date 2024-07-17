@@ -12,7 +12,7 @@ const itemImages = {
   "🎧 헤드셋": "/assets/headset.png",
   "🍀 클로버": "/assets/clover.png",
   "🚬 담배": "/assets/cigarette.png",
-  "☕ 커피": "/assets/coffee.png",
+  "☕ 커피": "../assets/coffee.png",
   "👔 체크남방": "/assets/shirt.png",
   "🧢 모자": "/assets/cap.png",
   "👓 블루라이트 차단안경": "/assets/glasses.png",
@@ -202,6 +202,7 @@ const MyRoomPage = () => {
       onItemClick={handleItemClick}
       onTilClick={handleTilClick}
       onPostboxClick={handlePostboxClick}
+      username={username}
     >
       {userInfo && userInfo.hasCommit && (
         <img
@@ -218,6 +219,7 @@ const MyRoomPage = () => {
       )}
       <h1>My Room</h1>
       <p>여기는 {username}의 My Room</p>
+
       <div className="left-buttons">
         <button className="profile-button" onClick={handleProfileClick}>
           <img

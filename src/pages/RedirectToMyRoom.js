@@ -52,6 +52,7 @@ const RedirectToMyRoom = () => {
     };
 
     const handleCallback = async () => {
+      console.log(window.location.search);
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get("code");
       console.log("OAuth code:", code);
@@ -69,7 +70,7 @@ const RedirectToMyRoom = () => {
         }
 
         await handleLocalStorageCheck(username);
-      }
+      } 
     };
 
     handleCallback();

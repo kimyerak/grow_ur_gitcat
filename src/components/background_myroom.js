@@ -1,7 +1,13 @@
 import React, { useState, useRef } from "react";
 import "../styles/background_myroom.css";
 
-const MRBG = ({ children, onItemClick, onTilClick, onPostboxClick }) => {
+const MRBG = ({
+  children,
+  onItemClick,
+  onTilClick,
+  onPostboxClick,
+  username,
+}) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const catRef = useRef(null);
@@ -63,6 +69,11 @@ const MRBG = ({ children, onItemClick, onTilClick, onPostboxClick }) => {
         <div className="desk"></div>
         <div className="laptop">
           <div className="stand"></div>
+          <img
+            src={`https://ghchart.rshah.org/${username}`}
+            alt={`${username}'s GitHub chart`}
+            className="github-chart"
+          />
         </div>
         <div className="mailbox">
           <div className="lid"></div>
