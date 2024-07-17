@@ -6,7 +6,7 @@ import "../styles/MyRoomPage.css";
 import ItemModal from "../components/ItemModal";
 import TilModal from "../components/TilModal";
 import PostboxModal from "../components/PostboxModal";
-import { getUserTils, addUserTil, deleteUserTil } from "../api/api_til";
+import ProfileModal from "../components/ProfileModal";
 
 const itemImages = {
   "🎧 헤드셋": "/assets/headset.png",
@@ -25,66 +25,20 @@ const itemImages = {
   "💻 노트북": "/assets/laptop.png",
 };
 
-const UserProfile = ({ username }) => {
-  const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const data = await fetchUserRecord(username);
-        setUserInfo(data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserInfo();
-  }, [username]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  return (
-    <div>
-      {userInfo ? (
-        <div>
-          <p>Username: {userInfo.username}</p>
-          <p>Coin: {userInfo.coin}</p>
-          <p>Has Commit: {userInfo.hasCommit ? "Yes" : "No"}</p>
-          <p>Message: {userInfo.message}</p>
-          <p>Wearing Items: {userInfo.wearing_items.join(", ")}</p>
-          <img
-            className="plant-image"
-            src={
-              userInfo.hasCommit
-                ? "/assets/plant_beautiful_1.png"
-                : "/assets/plant_wilted_1.png"
-            }
-            alt={userInfo.hasCommit ? "Beautiful Plant" : "Wilted Plant"}
-          />
-        </div>
-      ) : (
-        <p>No user info found</p>
-      )}
-    </div>
-  );
-};
-
 const MyRoomPage = () => {
   const { username } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [tilModalIsOpen, setTilModalIsOpen] = useState(false);
   const [postboxModalIsOpen, setPostboxModalIsOpen] = useState(false);
+  const [profileModalIsOpen, setProfileModalIsOpen] = useState(false);
   const [wornItems, setWornItems] = useState([]);
   const wornItemsRef = useRef([]);
+  const [userInfo, setUserInfo] = useState(null);
 
   const fetchUserInfo = useCallback(async () => {
     try {
       const data = await fetchUserRecord(username);
+      setUserInfo(data);
       const initialWornItems = data.wearing_items.map((item, index) => ({
         name: item,
         src: itemImages[item],
@@ -154,13 +108,13 @@ const MyRoomPage = () => {
   const closePostboxModal = () => {
     setPostboxModalIsOpen(false);
   };
+  const handleProfileClick = () => {
+    setProfileModalIsOpen(true);
+  };
 
-  // const onWearItem = (itemName) => {
-  //   setWornItems((prevItems) => [
-  //     ...prevItems,
-  //     { name: itemName, src: itemImages[itemName], id: Date.now() },
-  //   ]);
-  // };
+  const closeProfileModal = () => {
+    setProfileModalIsOpen(false);
+  };
 
   const onWearItem = (itemName) => {
     const newItem = {
@@ -195,12 +149,28 @@ const MyRoomPage = () => {
   };
 
   return (
-    <MRBG>
+    <MRBG
+      onItemClick={handleItemClick}
+      onTilClick={handleTilClick}
+      onPostboxClick={handlePostboxClick}
+    >
+      {userInfo && userInfo.hasCommit && (
+        <img
+          src="/assets/sun.png"
+          alt="Rainbow"
+          style={{
+            position: "absolute",
+            top: "30px",
+            right: "20px",
+            width: "300px", // 적절한 크기로 설정
+            height: "300px", // 적절한 크기로 설정
+          }}
+        />
+      )}
       <h1>My Room</h1>
       <p>여기는 {username}의 My Room</p>
-
-      <button className="item-button" onClick={handleItemClick}>
-        아이템
+      <button className="profile-button" onClick={handleProfileClick}>
+        프로필
       </button>
       <ItemModal
         isOpen={modalIsOpen}
@@ -210,12 +180,6 @@ const MyRoomPage = () => {
         onRemoveItem={onRemoveItem}
         fetchUserInfo={fetchUserInfo}
       />
-      <button className="item-button" onClick={handleTilClick}>
-        TIL
-      </button>
-      <button className="item-button" onClick={handlePostboxClick}>
-        쪽지함
-      </button>
 
       <TilModal
         isOpen={tilModalIsOpen}
@@ -227,7 +191,11 @@ const MyRoomPage = () => {
         onRequestClose={closePostboxModal}
         username={username}
       />
-      <UserProfile username={username} />
+      <ProfileModal
+        isOpen={profileModalIsOpen}
+        onRequestClose={closeProfileModal}
+        userInfo={userInfo}
+      />
       {wornItems.map((item) => (
         <img
           key={item.id}

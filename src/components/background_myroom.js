@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "../styles/background_myroom.css";
 
-const MRBG = ({ children }) => {
+const MRBG = ({ children, onItemClick, onTilClick, onPostboxClick }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const catRef = useRef(null);
@@ -49,7 +49,11 @@ const MRBG = ({ children }) => {
       <div className="ground">
         <div className="wardrobe">
           <div className="door"></div>
-          <div className="door"></div>
+          <div className="door">
+            <button className="item-button" onClick={onItemClick}>
+              아이템
+            </button>
+          </div>
         </div>
         <div className="bed">
           <div className="bed-head"></div>
@@ -63,8 +67,21 @@ const MRBG = ({ children }) => {
         <div className="mailbox">
           <div className="lid"></div>
           <div className="stand"></div>
+          <button className="item-button" onClick={onPostboxClick}>
+            쪽지함
+          </button>
+        </div>
+        <div className="bookshelf">
+          <div className="shelf"></div>
+          <div className="shelf">
+            <button className="item-button" onClick={onTilClick}>
+              TIL
+            </button>
+          </div>
+          <div className="shelf"></div>
         </div>
       </div>
+
       <div className="cloud"></div>
       <div className="room-content">{children}</div>
       {createDust()}
