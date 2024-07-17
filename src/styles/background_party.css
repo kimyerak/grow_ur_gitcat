@@ -59,3 +59,65 @@ body {
   );
   animation: flash 1s infinite;
 }
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes moveAndBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  0% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+  25% {
+    transform: translate(50vw, 10vh) rotate(45deg);
+  }
+  50% {
+    transform: translate(100vw, 50vh) rotate(45deg);
+  }
+  75% {
+    transform: translate(50vw, 90vh) rotate(45deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+}
+.rhombus {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: gold;
+  transform: rotate(45deg);
+  animation: moveAndBlink 5s infinite;
+  opacity: 0;
+}
+
+.rhombus:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.rhombus:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.rhombus:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.rhombus:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+.rhombus:nth-child(5) {
+  animation-delay: 1s;
+}

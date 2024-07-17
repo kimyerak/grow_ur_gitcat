@@ -221,7 +221,6 @@ const MyRoomPage = () => {
           }}
         />
       )}
-      <p className="username-text">{username}'s Room</p>
       <div className="left-buttons">
         <button className="profile-button" onClick={handleProfileClick}>
           <img

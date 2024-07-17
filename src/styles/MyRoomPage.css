@@ -23,8 +23,8 @@
   height: auto; /* 비율을 유지하면서 높이를 자동 조절 */
 }
 .draggable {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   position: absolute;
   cursor: grab;
 }
@@ -34,7 +34,8 @@
 }
 .username-text {
   font-family: "Press Start 2P", cursive;
-  color: white;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
 }
 .clover-coin {
   display: flex;

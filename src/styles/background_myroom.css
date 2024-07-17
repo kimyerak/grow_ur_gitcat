@@ -241,3 +241,17 @@
 .dust:nth-child(4n) {
   animation-duration: 14s;
 }
+.github-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.username-text {
+  margin-bottom: 20px;
+}
+
+.github-chart {
+  max-width: 100%;
+  height: auto;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/background_myroom.css";
 
 const MRBG = ({
@@ -12,6 +12,13 @@ const MRBG = ({
   const [isDragging, setIsDragging] = useState(false);
   const catRef = useRef(null);
 
+  useEffect(() => {
+    const savedPosition = JSON.parse(localStorage.getItem("catPosition"));
+    if (savedPosition) {
+      setPosition(savedPosition);
+    }
+  }, []);
+
   const handleMouseDown = (e) => {
     setIsDragging(true);
     catRef.current.style.cursor = "grabbing";
@@ -19,16 +26,18 @@ const MRBG = ({
 
   const handleMouseMove = (e) => {
     if (isDragging) {
-      setPosition({
+      const newPosition = {
         x: e.clientX - catRef.current.clientWidth / 2,
         y: e.clientY - catRef.current.clientHeight / 2,
-      });
+      };
+      setPosition(newPosition);
     }
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
     catRef.current.style.cursor = "grab";
+    localStorage.setItem("catPosition", JSON.stringify(position));
   };
   const createDust = () => {
     const dustArray = [];
@@ -71,11 +80,14 @@ const MRBG = ({
         <div className="desk"></div>
         <div className="laptop">
           <div className="stand"></div>
-          <img
-            src={`https://ghchart.rshah.org/${username}`}
-            alt={`${username}'s GitHub chart`}
-            className="github-chart"
-          />
+          <div className="github-info">
+            <p className="username-text">GitHub Username: {username}</p>
+            <img
+              src={`https://ghchart.rshah.org/${username}`}
+              alt={`${username}'s GitHub chart`}
+              className="github-chart"
+            />
+          </div>
         </div>
         <div className="mailbox">
           <div className="lid"></div>

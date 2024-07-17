@@ -12,28 +12,24 @@ const App = () => {
   const username = localStorage.getItem("username");
 
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/myroom/:username"
-          element={username ? <MyRoomPage /> : <Navigate to="/signin" />}
-        />
-        <Route
-          path="/party"
-          element={username ? <PartyPage /> : <Navigate to="/signin" />}
-        />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/RedirectToMyRoom" element={<RedirectToMyRoom />} />
-        <Route path="/mytil/:username" element={<MyTilPage />} />
-        <Route
-          path="*"
-          element={
-            <Navigate to={username ? `/myroom/${username}` : "/signin"} />
-          }
-        />
-      </Routes>
-    </Layout>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/myroom/:username"
+        element={username ? <MyRoomPage /> : <Navigate to="/signin" />}
+      />
+      <Route
+        path="/party"
+        element={username ? <PartyPage /> : <Navigate to="/signin" />}
+      />
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/RedirectToMyRoom" element={<RedirectToMyRoom />} />
+      <Route path="/mytil/:username" element={<MyTilPage />} />
+      <Route
+        path="*"
+        element={<Navigate to={username ? `/myroom/${username}` : "/signin"} />}
+      />
+    </Routes>
   );
 };
 

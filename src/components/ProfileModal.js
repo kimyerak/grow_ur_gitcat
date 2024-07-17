@@ -47,9 +47,9 @@ const ProfileModal = ({ isOpen, onRequestClose, userInfo }) => {
         <div>
           <p>👩‍💻Username: {userInfo.username}</p>
           <p>🍀Clover Coin: {userInfo.coin}</p>
-          <p>☀️오늘 커밋했나요?: {userInfo.hasCommit ? "Yes" : "No"}</p>
+          <p>☀️Commit Today?: {userInfo.hasCommit ? "Yes" : "No"}</p>
           <div>
-            <label htmlFor="message">💭상태 메시지: </label>
+            <label htmlFor="message">💭me now...: </label>
             <input
               type="text"
               id="message"
@@ -71,9 +71,9 @@ const ProfileModal = ({ isOpen, onRequestClose, userInfo }) => {
       ) : (
         <p>No user info found</p>
       )}
-      <button onClick={handleSave}>저장</button>
-      <button onClick={onRequestClose}>닫기</button>
-      <button onClick={handleLogout}>로그아웃</button>
+      <button onClick={handleSave}>SAVE</button>
+      <button onClick={onRequestClose}>CLOSE</button>
+      <button onClick={handleLogout}>LOG OUT</button>
     </Modal>
   );
 };
