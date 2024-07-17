@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getCommitKing,
   getCommunicationKing,
@@ -12,6 +13,7 @@ import { sendMessage } from '../api/api_postbox';
 import GameModal from '../components/GameModal'; // 추가된 부분
 
 const PartyPage = () => {
+  const navigate = useNavigate();
   const [commitKing, setCommitKing] = useState(null);
   const [communicationKing, setCommunicationKing] = useState(null);
   const [consistentUsers, setConsistentUsers] = useState([]);
@@ -53,6 +55,12 @@ const PartyPage = () => {
     setGameModalIsOpen(false);
   };
 
+  const navigateToHome = () => {
+    const username = localStorage.getItem('username');
+    navigate(`/myhome/${username}`);
+  };
+
+  
   useEffect(() => {
     const fetchKings = async () => {
       try {
@@ -84,31 +92,24 @@ const PartyPage = () => {
         <div className="kings-container">
           {commitKing && (
             <div className="king-card">
-              <h2>금주의 커밋왕@@</h2>
-              <img
-                src={commitKing.profilePic}
-                alt="Commit King"
-                className="profile-pic"
-              />
-              <p>이름: {commitKing.username}</p>
-              <p>커밋 횟수: {commitKing.commitCount}</p>
+              <p>👑👑👑</p>
+              <h3>Commit King</h3>
+              <p>user name: {commitKing.username}</p>
+              <p>commit count: {commitKing.commitCount}</p>
             </div>
           )}
           {communicationKing && (
             <div className="king-card">
-              <h2>금주의 소통왕</h2>
-              <img
-                src={communicationKing.profilePic}
-                alt="Communication King"
-                className="profile-pic"
-              />
-              <p>이름: {communicationKing.username}</p>
-              <p>보낸 쪽지 개수: {communicationKing.count}</p>
+              <p>👑👑👑</p>
+              <h3>Communication King</h3>
+              <p>user name: {communicationKing.username}</p>
+              <p>post count: {communicationKing.count}</p>
             </div>
           )}
           {consistentUsers.length > 0 && (
             <div className="king-card">
-              <h2>금주의 성실왕</h2>
+              <p>👑👑👑</p>
+              <h3>Passionate User</h3>
               <ul>
                 {consistentUsers.map((user, index) => (
                   <li key={index}>{user}</li>
@@ -143,13 +144,15 @@ const PartyPage = () => {
         />
       </div>
       <div className="game-icon">
-        <p>is it here?</p>
-        <img src="../assets/clover.png" alt="Game Icon" onClick={openGameModal} style={{ cursor: 'pointer' }} /> {/* 게임 아이콘 추가 */}
+        <img src="../assets/clover.png" alt="Game Icon" onClick={openGameModal} style={{ cursor: 'pointer', width: '80px', height: '80px' }} /> {/* 게임 아이콘 추가 */}
       </div>
       <GameModal // 추가된 부분
         isOpen={gameModalIsOpen}
         onRequestClose={closeGameModal}
       />
+      <div className="back-to-home" onClick={navigateToHome} style={{ position: 'absolute', bottom: '10px', left: '10px', cursor: 'pointer', color: 'white' }}>
+        Back to my home
+      </div>
     </BackgroundParty>
   );
 };
