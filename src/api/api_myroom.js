@@ -1,5 +1,5 @@
 import axios from "axios";
-const server_ip = env.NETWORK_IP;
+const server_ip = process.env.NETWORK_IP;
 
 // baseURL 설정
 const instance = axios.create({

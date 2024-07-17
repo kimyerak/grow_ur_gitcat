@@ -79,38 +79,43 @@
   height: 45%;
   background-color: #a0522d; /* 황갈색 */
   border: 2px solid #8b4513; /* 어두운 갈색 */
+  display: flex; /* Flexbox 사용 */
+  justify-content: center; /* Flexbox 사용 */
+  align-items: center;
 }
 
 .desk {
   position: absolute;
   bottom: 100px;
-  left: 45%;
-  width: 500px;
+  left: 40%;
+  width: 600px;
   height: 200px;
   background-color: #be865d; /* 연한 갈색 */
   border: 2px solid #be865d; /* 갈색 */
 }
+
 .laptop {
   position: absolute;
-  bottom: 300px; /* 책상 상판 위에 위치하도록 설정 */
-  left: calc(60% + 60px); /* 책상 가운데에 위치하도록 조정 */
-  width: 30px;
-  height: 50px;
-  background-color: #333; /* 노트북 본체 색상 */
-  /* 노트북 경계 색상 */
+  bottom: 400px; /* 책상 상판 위에 위치하도록 설정 */
+  left: calc(35% + 60px); /* 책상 가운데에 위치하도록 조정 */
+  width: 550px;
+  height: 200px;
+  background-color: #555; /* 노트북 화면 색상 */
+  border: 2px solid #333; /* 노트북 경계 색상 */
+  display: flex; /* Flexbox 사용 */
+  justify-content: center; /* Flexbox 사용 */
+  align-items: center; /* Flexbox 사용 */
 }
 
 .laptop::before {
   content: "";
   position: absolute;
-  top: -150px;
-  left: -110px;
-  width: 250px;
-  height: 150px;
-  background-color: #555; /* 노트북 화면 색상 */
-  border: 2px solid #333; /* 노트북 경계 색상 */
-  /* transform: skewY(-10deg); 평행사변형으로 만들기 위해 기울임
-  transform-origin: bottom left; 변형 기준점 설정 */
+  bottom: -100px;
+  left: 260px;
+
+  width: 30px;
+  height: 100px;
+  background-color: #333; /* 노트북 본체 색상 */
 }
 
 .mailbox {
@@ -164,7 +169,7 @@
   background-color: #a0522d; /* 황갈색 */
   border: 2px solid #8b4513; /* 어두운 갈색 */
   display: flex;
-  justify-content: space-between; /* 책들이 양옆으로 나열되도록 설정 */
+  justify-content: center; /* 책들이 양옆으로 나열되도록 설정 */
   align-items: center;
 }
 

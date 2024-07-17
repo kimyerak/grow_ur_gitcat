@@ -218,9 +218,25 @@ const MyRoomPage = () => {
       )}
       <h1>My Room</h1>
       <p>여기는 {username}의 My Room</p>
-      <button className="profile-button" onClick={handleProfileClick}>
-        프로필
-      </button>
+      <div className="left-buttons">
+        <button className="profile-button" onClick={handleProfileClick}>
+          <img
+            src="/assets/profile.png"
+            alt="Profile"
+            className="profile-image"
+          />
+        </button>
+        <button className="profile-button">
+          <img src="/assets/coin.png" alt="Coin" className="profile-image" />
+        </button>
+        <button className="profile-button">
+          <img
+            src="/assets/disco-ball-yellow.png"
+            alt="Disco Ball"
+            className="profile-image"
+          />
+        </button>
+      </div>
       <ItemModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
