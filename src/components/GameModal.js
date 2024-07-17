@@ -45,8 +45,8 @@ const GameModal = ({ isOpen, onRequestClose }) => {
       const cat = {
         x: canvas.width / 2 - 25,
         y: canvas.height - 60,
-        width: 65,
-        height: 65,
+        width: 50,
+        height: 50,
         speed: 7,
         dx: 0,
       };
@@ -54,8 +54,8 @@ const GameModal = ({ isOpen, onRequestClose }) => {
       const coin = {
         x: Math.random() * (canvas.width - 30),
         y: 0,
-        width: 30,
-        height: 30,
+        width: 25,
+        height: 25,
         speed: 3,
       };
 
@@ -209,12 +209,38 @@ const GameModal = ({ isOpen, onRequestClose }) => {
           transform: 'translate(-50%, -50%)',
           width: '80%',
           height: '80%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
         },
       }}
     >
-      <button onClick={onRequestClose}>Close</button>
-      <div ref={scoreRef} className="score">Score: 0</div>
-      <canvas ref={canvasRef} width="800" height="600"></canvas>
+      <div ref={scoreRef} className="score" style={{
+        fontFamily: '"Press Start 2P", cursive',
+        fontSize: '20px',
+        textAlign: 'center',
+      }}>Score: 0</div>
+      <canvas ref={canvasRef} width="800" height="400"></canvas>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto' }}>
+        <button 
+          onClick={onRequestClose} 
+          style={{
+            backgroundColor: 'gray',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            position: 'absolute',
+            bottom: '20px',
+            right: '20px',
+            fontFamily: '"Press Start 2P", cursive',
+          }}
+        >
+          Close
+        </button>
+      </div>
     </Modal>
   );
 };

@@ -8,22 +8,27 @@ import {
   getSentMessages,
   sendMessage,
 } from "../api/api_postbox";
+import { getUsers } from "../api/api_myroom_item";
 import { FaPencilAlt } from "react-icons/fa";
 
 const PostboxModal = ({ isOpen, onRequestClose, username }) => {
   const [receivedMessages, setReceivedMessages] = useState([]);
   const [sentMessages, setSentMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({ receiver: "", contents: "" });
+  const [allUsers, setAllUsers] = useState([]); // 사용자 목록을 위한 상태
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 표시 여부
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const receivedData = await getReceivedMessages(username);
         const sentData = await getSentMessages(username);
+        const usersData = await getUsers();
         setReceivedMessages(receivedData);
         setSentMessages(sentData);
+        setAllUsers(usersData);
       } catch (err) {
         setError(err);
       } finally {
@@ -43,9 +48,16 @@ const PostboxModal = ({ isOpen, onRequestClose, username }) => {
       const messageData = { ...newMessage, sender: username };
       await sendMessage(messageData);
       setNewMessage({ receiver: "", contents: "" });
+      const sentData = await getSentMessages(username); 
+      setSentMessages(sentData);
     } catch (error) {
       setError(error);
     }
+  };
+
+  const handleReceiverChange = (receiver) => {
+    setNewMessage({ ...newMessage, receiver });
+    setShowDropdown(false); // 드롭다운 닫기
   };
 
   return (
@@ -110,10 +122,29 @@ const PostboxModal = ({ isOpen, onRequestClose, username }) => {
                 type="text"
                 placeholder="받는 사람"
                 value={newMessage.receiver}
+                onFocus={() => setShowDropdown(true)} // 입력란 클릭 시 드롭다운 표시
                 onChange={(e) =>
                   setNewMessage({ ...newMessage, receiver: e.target.value })
                 }
               />
+              {showDropdown && (
+                <ul className="dropdown">
+                  {allUsers
+                    .filter((user) =>
+                      user.username
+                        .toLowerCase()
+                        .includes(newMessage.receiver.toLowerCase())
+                    )
+                    .map((user) => (
+                      <li
+                        key={user.username}
+                        onClick={() => handleReceiverChange(user.username)}
+                      >
+                        {user.username}
+                      </li>
+                    ))}
+                </ul>
+              )}
               <textarea
                 placeholder="내용"
                 value={newMessage.contents}
