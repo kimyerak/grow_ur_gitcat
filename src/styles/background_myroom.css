@@ -121,7 +121,7 @@
 .mailbox {
   position: absolute;
   bottom: 300px; /* ground에서 떨어진 위치 */
-  right: 5%;
+  right: 3%;
   width: 150px;
   height: 150px;
   background-color: #ff0000; /* 토마토색 */
@@ -152,7 +152,7 @@
 .bookshelf {
   position: absolute;
   bottom: 100px;
-  right: 15%;
+  right: 13%;
   width: 200px;
   height: 400px;
   background-color: #8b4513; /* 갈색 */
@@ -202,8 +202,7 @@
   top: 50px;
   left: 60%;
   width: 200px;
-  height: 60px;
-  background-color: #ffffff; /* 흰색 */
+  height: 200px;
   /* border: 2px solid #b0c4de; 연한 파란색 */
   border-radius: 30px;
   display: flex;
@@ -211,28 +210,6 @@
   align-items: center;
 }
 
-.cloud::before,
-.cloud::after {
-  content: "";
-  position: absolute;
-  background-color: #ffffff; /* 흰색 */
-  /* border: 2px solid #b0c4de; 연한 파란색 */
-  border-radius: 50%;
-}
-
-.cloud::before {
-  width: 60px;
-  height: 60px;
-  top: -30px;
-  left: 20px;
-}
-
-.cloud::after {
-  width: 80px;
-  height: 80px;
-  top: -40px;
-  right: 20px;
-}
 @keyframes fall {
   0% {
     transform: translateY(-10px);

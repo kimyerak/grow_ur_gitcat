@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MRBG from "../components/background_myroom";
 import { fetchUserRecord } from "../api/api_myroom_current";
 import "../styles/MyRoomPage.css";
@@ -76,6 +76,7 @@ const UserProfile = ({ username }) => {
 
 const MyRoomPage = () => {
   const { username } = useParams();
+  const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [tilModalIsOpen, setTilModalIsOpen] = useState(false);
   const [postboxModalIsOpen, setPostboxModalIsOpen] = useState(false);
@@ -164,6 +165,9 @@ const MyRoomPage = () => {
   const closeProfileModal = () => {
     setProfileModalIsOpen(false);
   };
+  const handlePartyClick = () => {
+    navigate("/party"); // party 페이지로 이동
+  };
 
   const onWearItem = (itemName) => {
     const newItem = {
@@ -217,9 +221,7 @@ const MyRoomPage = () => {
           }}
         />
       )}
-      <h1>My Room</h1>
-      <p>여기는 {username}의 My Room</p>
-
+      <p className="username-text">{username}'s Room</p>
       <div className="left-buttons">
         <button className="profile-button" onClick={handleProfileClick}>
           <img
@@ -228,16 +230,18 @@ const MyRoomPage = () => {
             className="profile-image"
           />
         </button>
-        <button className="profile-button">
-          <img src="/assets/coin.png" alt="Coin" className="profile-image" />
-        </button>
-        <button className="profile-button">
+
+        <button className="profile-button" onClick={handlePartyClick}>
           <img
             src="/assets/disco-ball-yellow.png"
             alt="Disco Ball"
             className="profile-image"
           />
         </button>
+        <div className="clover-coin">
+          <img src="/assets/clover.png" alt="Clover" className="clover-image" />
+          <span className="coin-text">{userInfo && userInfo.coin}</span>
+        </div>
       </div>
       <ItemModal
         isOpen={modalIsOpen}

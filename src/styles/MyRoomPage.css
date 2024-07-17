@@ -32,3 +32,43 @@
 .draggable:active {
   cursor: grabbing;
 }
+.username-text {
+  font-family: "Press Start 2P", cursive;
+  color: white;
+}
+.clover-coin {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.clover-image {
+  width: 130px; /* 적절한 크기로 설정 */
+  height: 130px; /* 적절한 크기로 설정 */
+  margin-right: 20px; /* 텍스트와 이미지 간격 조절 */
+}
+
+.coin-text {
+  font-family: "Press Start 2P", cursive; /* 동일한 글씨체 적용 */
+  color: white; /* 흰색 글씨 */
+  font-size: 50px; /* 적절한 크기로 설정 */
+}
+.profile-button {
+  background: none; /* 배경을 없앰 */
+  border: none; /* 테두리를 없앰 */
+  padding: 0; /* 패딩을 없앰 */
+  cursor: pointer; /* 커서를 포인터로 변경 */
+}
+
+.profile-image {
+  width: 150px; /* 이미지 크기를 설정 */
+  height: 150px; /* 이미지 크기를 설정 */
+  display: block; /* 이미지를 블록 요소로 설정 */
+}
+.left-buttons {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: flex;
+  gap: 15px;
+}

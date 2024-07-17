@@ -52,6 +52,8 @@ const MRBG = ({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
+      <img src="/assets/cloud.png" alt="Cloud" className="cloud" />
+
       <div className="ground">
         <div className="wardrobe">
           <div className="door"></div>
@@ -106,7 +108,6 @@ const MRBG = ({
         </div>
       </div>
 
-      <div className="cloud"></div>
       <div className="room-content">{children}</div>
       {createDust()}
       <img

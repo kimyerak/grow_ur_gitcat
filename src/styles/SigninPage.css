@@ -1,0 +1,48 @@
+.main-text {
+  font-family: "Press Start 2P", cursive; /* 동일한 글씨체 적용 */
+  color: rgb(70, 70, 70); /* 흰색 글씨 */
+  font-size: 100px; /* 적절한 크기로 설정 */
+}
+.main2-text {
+  font-family: "Press Start 2P", cursive; /* 동일한 글씨체 적용 */
+  color: white; /* 흰색 글씨 */
+  font-size: 50px; /* 적절한 크기로 설정 */
+}
+.button-style {
+  font-family: "Press Start 2P", cursive; /* 동일한 글씨체 적용 */
+  background-color: green; /* 초록색 배경 */
+  color: white; /* 흰색 글씨 */
+  padding: 30px 30px; /* 버튼 패딩 */
+  border: none; /* 테두리 제거 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  font-size: 20px; /* 글씨 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.button-style:hover {
+  background-color: darkgreen; /* 호버 시 진한 초록색 */
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.cat {
+  position: relative;
+  width: 100px; /* 고양이 이미지 크기 */
+  height: 100px;
+  animation: bounce 2s infinite;
+  margin-left: 20px; /* 텍스트와의 간격 */
+}
